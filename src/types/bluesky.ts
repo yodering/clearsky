@@ -3,12 +3,15 @@
 // Type for a single post retrieved from the Bluesky API
 export interface BlueskyPost {
   uri: string; // Unique identifier for the post
+  cid: string; // Content identifier for the post
   text: string; // Post content
   createdAt: string; // Post creation date
+  hasImage: boolean; // Whether the post contains images
+  hasVideo: boolean; // Whether the post contains video
   embed?: {
     images?: { fullsize: string; alt?: string }[]; // Array of images with alt text
     media?: { type: 'video'; url: string }; // Video embed details
-  } | null; // Optional embed content (images or media)
+  }; // Optional embed content (images or media)
 }
 
 // Type for the user profile retrieved from Bluesky
