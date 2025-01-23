@@ -14,7 +14,7 @@ function App() {
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="text-xl font-bold text-indigo-900">Bluesky Post Manager</h1>
+          <h1 className="text-xl font-bold text-sky-900">ClearSky</h1>
           <button
             onClick={logout}
             className="text-gray-600 hover:text-red-600 transition-colors"

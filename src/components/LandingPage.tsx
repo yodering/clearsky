@@ -45,7 +45,7 @@ export const LandingPage = () => {
           <div className="text-center">
             <h1 className="text-5xl font-bold text-sky-900 mb-4">ClearSky</h1>
             <p className="text-xl text-sky-700 max-w-2xl mx-auto">
-              The most powerful tool for managing your Bluesky content. Clean up your timeline, manage your likes and reposts with ease.
+              A powerful tool for managing your Bluesky content. Clean up your timeline with ease.
             </p>
           </div>
           <div className="flex justify-center mt-6">
