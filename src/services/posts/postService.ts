@@ -2,7 +2,8 @@ import { BlueskyAgentService } from '../api/blueskyAgent';
 import { PostFilterService } from './postFilterService';
 import { PostMapperService } from './postMapperService';
 import { ApiError } from '../errors/ApiError';
-import type { BlueskyPost, FilterOptions } from '../../types/bluesky';
+import type { BlueskyPost } from '../../types/bluesky';
+import type { FilterOptions } from '../../types/filters';
 
 export class PostService {
   static async getPosts(): Promise<BlueskyPost[]> {

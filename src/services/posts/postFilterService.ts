@@ -1,10 +1,11 @@
-import type { BlueskyPost, FilterOptions } from '../../types/bluesky';
+import type { BlueskyPost } from '../../types/bluesky';
+import type { FilterOptions } from '../../types/filters';
+
+import type { AppBskyFeedDefs } from '@atproto/api';
 
 export class PostFilterService {
-  static isOwnPost(item: any, userDid: string): boolean {
-    const isRepost = item.post.record.$type === 'app.bsky.feed.repost';
-    const isOwnPost = item.post.author.did === userDid;
-    return !isRepost && isOwnPost;
+  static isOwnPost(item: AppBskyFeedDefs.FeedViewPost, userDid: string): boolean {
+    return item.post?.author?.did === userDid;
   }
 
   static applyFilters(posts: BlueskyPost[], filters: FilterOptions): BlueskyPost[] {
@@ -55,5 +56,4 @@ export class PostFilterService {
       }
     });
   }
-
 }
