@@ -1,4 +1,4 @@
-import { BskyAgent, AppBskyEmbedImages, AppBskyEmbedRecordWithMedia, AppBskyFeedDefs } from '@atproto/api';
+import { BskyAgent, AppBskyEmbedImages, AppBskyEmbedRecordWithMedia, AppBskyFeedDefs, AppBskyEmbedRecord } from '@atproto/api';
 import type { BlueskyPost } from '../types/bluesky';
 import { ApiError } from './errors/ApiError';
 import { RetryService } from './utils/retryService';
@@ -86,6 +86,11 @@ export class BlueskyService {
 
       const embedData = embed ? this.getEmbedData(embed) : undefined;
 
+      const isQuote = AppBskyEmbedRecord.isView(embed) && 
+                   embed.record?.value !== null &&
+                   typeof embed.record?.value === 'object' &&
+                   'text' in embed.record.value;
+
       return {
         uri,
         cid,
@@ -94,6 +99,20 @@ export class BlueskyService {
         hasImage: Boolean(embedData?.images),
         hasVideo: Boolean(embedData?.media),
         embed: embedData,
+        isQuote,
+        quotedPost: isQuote && AppBskyEmbedRecord.isView(embed) &&
+        typeof embed.record.uri === 'string' &&
+        embed.record.author &&
+        typeof embed.record.author === 'object' &&
+        'handle' in embed.record.author && typeof embed.record.author.handle === 'string' ? {
+          uri: embed.record.uri,
+          text: (embed.record.value as { text: string }).text,
+          author: {
+            handle: embed.record.author.handle,
+            displayName: 'displayName' in embed.record.author && typeof embed.record.author.displayName === 'string' ? embed.record.author.displayName : embed.record.author.handle
+          }
+        } : undefined
+      
       };
     } catch (error) {
       throw error instanceof ApiError ? error : new ApiError('Failed to map post data');

@@ -24,6 +24,15 @@ export interface BlueskyPost {
   };
   isRepost?: boolean;
   repostUri?: string;
+  isQuote?: boolean;
+  quotedPost?: {
+    uri: string;
+    text: string;
+    author: {
+      handle: string;
+      displayName: string;
+    };
+  };
 }
 
 // Type for the user profile retrieved from Bluesky

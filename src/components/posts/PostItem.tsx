@@ -33,6 +33,14 @@ export const PostItem: React.FC<PostItemProps> = ({
         />
         <div className="flex-1">
           <p className="mb-2">{post.text}</p>
+          {post.isQuote && post.quotedPost && (
+            <div className="mb-2 p-3 border-l-4 border-blue-500 bg-blue-50 rounded">
+              <div className="text-sm text-gray-600 mb-1">
+                Quoting @{post.quotedPost.author.handle}
+              </div>
+              <p className="text-gray-800">{post.quotedPost.text}</p>
+            </div>
+          )}
           {post.embed?.images && (
             <div className="grid grid-cols-2 gap-2 mb-2">
               {post.embed.images.map((img, index) => (

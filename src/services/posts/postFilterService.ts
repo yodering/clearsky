@@ -38,7 +38,8 @@ export class PostFilterService {
   private static filterByText(posts: BlueskyPost[], searchText: string): BlueskyPost[] {
     const lowercaseSearch = searchText.toLowerCase();
     return posts.filter(post => 
-      post.text.toLowerCase().includes(lowercaseSearch)
+      post.text.toLowerCase().includes(lowercaseSearch) ||
+      (post.isQuote && post.quotedPost?.text.toLowerCase().includes(lowercaseSearch))
     );
   }
 

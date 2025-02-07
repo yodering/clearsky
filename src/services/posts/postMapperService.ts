@@ -1,4 +1,4 @@
-import { BskyAgent } from '@atproto/api';
+import { BskyAgent, AppBskyEmbedRecord } from '@atproto/api';
 import type { BlueskyPost } from '../../types/bluesky';
 
 export class PostMapperService {
@@ -6,6 +6,13 @@ export class PostMapperService {
     const embed = item.post.embed;
     const hasImage = this.hasImages(embed);
     const hasVideo = this.hasVideo(embed);
+    const isQuote = this.isQuotePost(embed);
+
+    const isRepost = item.post.record?.$type === 'app.bsky.feed.repost';
+    const originalAuthor = isRepost ? {
+      handle: item.post.author.handle,
+      displayName: item.post.author.displayName || item.post.author.handle
+    } : undefined;
 
     return {
       uri: item.post.uri,
@@ -24,6 +31,17 @@ export class PostMapperService {
           url: embed.media.url,
         } : undefined,
       } : undefined,
+      isQuote,
+      isRepost,
+      originalAuthor,
+      quotedPost: isQuote ? {
+        uri: embed.record.uri,
+        text: embed.record.value.text,
+        author: {
+          handle: embed.record.author.handle,
+          displayName: embed.record.author.displayName || embed.record.author.handle
+        }
+      } : undefined
     };
   }
 
@@ -35,4 +53,10 @@ export class PostMapperService {
     return embed?.media?.type === 'video';
   }
 
+  private static isQuotePost(embed: any): boolean {
+    return AppBskyEmbedRecord.isView(embed) && 
+           embed.record?.value !== null &&
+           typeof embed.record?.value === 'object' &&
+           'text' in embed.record.value;
+  }
 }
