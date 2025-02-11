@@ -43,4 +43,35 @@ export class PostService {
       return response;
     }, 'delete post');
   }
+
+  static async unlikePost(uri: string): Promise<void> {
+    const agent = BlueskyAgentService.getInstance();
+    BlueskyAgentService.validateSession();
+
+    await BlueskyAgentService.retryOperation(async () => {
+      await BlueskyAgentService.unlikePost(uri);
+    }, 'unlike post');
+  }
+
+  static async getLikedPosts(filters: FilterOptions): Promise<BlueskyPost[]> {
+    const agent = BlueskyAgentService.getInstance();
+    BlueskyAgentService.validateSession();
+
+    const response = await BlueskyAgentService.retryOperation(async () => {
+      return await BlueskyAgentService.getLikedPosts({
+        actor: agent.session!.handle,
+        limit: 50,
+      });
+    }, 'fetch liked posts');
+
+    if (!response.success || !Array.isArray(response.data.feed)) {
+      throw new ApiError('Invalid response from server');
+    }
+
+    const posts = await Promise.all(
+      response.data.feed.map(item => PostMapperService.mapPostFromResponse(item))
+    );
+
+    return PostFilterService.applyFilters(posts, filters);
+  }
 }

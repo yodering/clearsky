@@ -35,4 +35,18 @@ export class BlueskyAgentService {
         : new ApiError(`Failed to ${operationName}`);
     }
   }
+
+  static async getLikedPosts(params: { actor: string; limit: number }) {
+    if (!this.instance) {
+      throw new ApiError('No Bluesky agent instance available');
+    }
+    return await this.instance.getActorLikes(params);
+  }
+
+  static async unlikePost(uri: string) {
+    if (!this.instance) {
+      throw new ApiError('No Bluesky agent instance available');
+    }
+    return await this.instance.deleteLike(uri);
+  }
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 
-export type TabType = 'posts' | 'reposts';
+export type TabType = 'posts' | 'reposts' | 'likes';
 
 interface TabNavigationProps {
   tabs: Array<{ id: TabType; label: string }>;
