@@ -23,7 +23,7 @@ export class PostService {
       return Promise.all(
         response.data.feed
           .filter(item => PostFilterService.isOwnPost(item, agent.session!.did))
-          .map(item => PostMapperService.mapPostFromResponse(item, agent))
+          .map(item => PostMapperService.mapPostFromResponse(item))
       );
     }, 'fetch posts');
   }

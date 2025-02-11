@@ -1,8 +1,8 @@
-import { BskyAgent, AppBskyEmbedRecord } from '@atproto/api';
+import { AppBskyEmbedRecord } from '@atproto/api';
 import type { BlueskyPost } from '../../types/bluesky';
 
 export class PostMapperService {
-  static async mapPostFromResponse(item: any, agent: BskyAgent): Promise<BlueskyPost> {
+  static async mapPostFromResponse(item: any): Promise<BlueskyPost> {
     const embed = item.post.embed;
     const hasImage = this.hasImages(embed);
     const hasVideo = this.hasVideo(embed);

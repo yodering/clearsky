@@ -5,7 +5,8 @@ import { PostItem } from './PostItem';
 import { ConfirmationDialog } from '../ui/ConfirmationDialog';
 import { ErrorMessage } from '../ui/ErrorMessage';
 import { LoadingSpinner } from '../ui/LoadingSpinner';
-import type { BlueskyPost, FilterOptions } from '../../types/bluesky';
+import type { BlueskyPost } from '../../types/bluesky';
+import type { FilterOptions } from '../../types/filters';
 
 export const PostList: React.FC = () => {
   const [posts, setPosts] = useState<BlueskyPost[]>([]);
